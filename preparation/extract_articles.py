@@ -45,7 +45,7 @@ def extract_articles(file_path: Path) -> list:
 
     return articles
 
-def save_articles_as_json(articles: list, output_dir: Path) -> None:
+def save_articles_as_json(articles: list, output_dir: Path, extraction_timestamp: datetime) -> None:
     """Save extracted articles as individual JSON files.
 
     This function takes a list of articles and saves each one as a JSON file in the specified output directory.
@@ -55,6 +55,8 @@ def save_articles_as_json(articles: list, output_dir: Path) -> None:
     :type articles: list
     :param output_dir: The directory where the JSON files will be saved.
     :type output_dir: Path
+    :param extraction_timestamp: Timestamp (datetime) indicating when the pipeline run
+    :type extraction_timestamp: datetime
     :return: None
     """
     if not os.path.exists(output_dir):
@@ -67,7 +69,7 @@ def save_articles_as_json(articles: list, output_dir: Path) -> None:
             "article_number": article_number,
             "title": article["title"],
             "content": article["content"].strip(),
-            "extraction_timestamp": datetime.now().isoformat()
+            "extraction_timestamp": extraction_timestamp.isoformat()
         }
 
         with open(os.path.join(output_dir, file_name), "w") as f:
@@ -81,5 +83,6 @@ if __name__ == '__main__':
     """
     file_path = Path("./data/raw/GDPR_Art_1_21.pdf")
     save_path = Path("./data/extracted_articles")
+    current_datetime = datetime.now()
     articles = extract_articles(file_path)
-    save_articles_as_json(articles, save_path)
+    save_articles_as_json(articles, save_path, current_datetime)
