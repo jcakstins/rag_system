@@ -49,6 +49,6 @@ def save_articles_as_json(articles: dict, output_dir: Path)-> None:
 
 if __name__=='__main__':
     file_path = Path("./data/raw/GDPR_Art_1_21.pdf")
-    save_path = Path("./rag_system/data/extracted_articles")
+    save_path = Path("./data/extracted_articles")
     articles = extract_articles(file_path)
     save_articles_as_json(articles, save_path)
